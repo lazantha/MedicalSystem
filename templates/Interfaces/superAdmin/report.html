@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Reports</title>
+ <style>
+  .my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+ </style>
+{% endblock %}
+
+{% block content %}
+
+<div class=" row" >
+  <!-- first Column -->
+  <div class="col-3 border-top border-end rounded-end" style="background-color: #344ba0;height: 100vh;">
+
+    <div class="mt-5 ps-3">
+      <span style="margin: 0; padding: 0; color: #f0c76f; margin-left: 1rem; padding-left: 1rem;"><i> WELCOME {{user_name}}</i></span>
+      <div style="text-align: center;margin-bottom: 3rem;">
+        <a href="{{url_for('superLogOut')}}" class="fs-4 border-bottom "><i class="fa-solid fa-power-off" style="color: #f0c76f;"></i></a>
+      </div>
+      
+        <ul class="">
+          
+          <li class="pb-5" style="list-style: none;">
+            <a href=""><i class="fa-solid fa-gears" style="color: #f0c76f;"></i></a>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Admin(HOD)</a>
+          
+          </li>
+          <hr>
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-calendar-plus" style="color: #f0c76f;"></i>
+          <a href="/exams" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Update Time Tables</a>
+          
+          </li>
+          <hr>
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-file-export" style="color: #f0c76f;"></i>
+          <a href="/adminReports" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Reports</a>
+          
+          </li>
+          <hr>
+          <li class="" style="list-style: none;">
+            <i class="fa-solid fa-chart-line" style="color: #f0c76f;"></i>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Statistics</a>
+          
+          </li>
+          <hr>
+          
+             
+        </ul>
+
+    </div>
+  </div> 
+  <!-- End of First Column -->
+
+  <div class="col">
+
+
+    <div class="card">
+      <div class="card-header">
+        Featured
+      </div>
+      <div class="card-body">
+      
+
+        <div class="card" style="width: 50rem;">
+          <div class="card-body">
+            <h5 class="card-title">Student Infomation</h5>
+            <table class="table table-bordered border-primary">
+              <thead>
+                <tr>
+                  <td>Applied Students</td>
+                  <td>Authenticated Students</td>
+                  <td>Non Authenticated Students</td>
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{student_count}}</td>
+                  <td>{{authenticate}}</td>
+                  <td>{{non_authenticate}}</td>
+                  
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Subject Informations</h5>
+            
+            <table class="table table-bordered border-primary">
+              <thead>
+                <tr>
+                  <td>
+
+                  </td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+
+        <a class="btn btn-warning btn-sm w-25 " href="/superAdminReports?action=print">Print</a>
+    </div>
+    
+  </div>
+  <!-- End of Second Column -->
+  
+</div>
+
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,391 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Admin Panel</title>
+<style>
+  /* CSS styles for the container and small photos */
+  .photo-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .small-photo {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    cursor: pointer;
+    /*100px
+    100px
+    10px
+    */
+  }
+
+  /* CSS styles for the modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*100
+    100
+    */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .modal-content {
+    display: block;
+    margin: auto;
+    max-width: 800px;
+    max-height: 600px; 
+
+    /*800
+    600
+    */
+  }
+
+  .modal-content img {
+    width: 60%;
+/*      100*/
+    height: auto;
+  }
+  .my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+/* color conversion */
+</style>
+ 
+{% endblock %}
+
+
+{% block content %}
+<div class="row "  >
+    {{form.hidden_tag()}}
+    <!-- first Column -->
+    <div class="col-3 border-top border-end rounded-end" style="background-color: #344ba0;">
+
+      <div class="mt-5 ps-3 ">
+        <span style="margin: 0; padding: 0; color: #f0c76f; margin-left: 1rem; padding-left: 1rem;"><i> Welcome {{user_name|title}}</i></span>
+          <div class=" align-top " style="text-align: center;margin: 3rem;">
+            <a href="{{url_for('adminLogOut')}}" class="fs-4 border-bottom "><i class="fa-solid fa-power-off" style="color: #f0c76f;"></i></a>
+        
+          </div>
+          
+          <ul class="">
+            
+            <li class="pb-5" style="list-style: none;">
+              <a href="{{url_for('adminLogOut')}}"><i class="fa-solid fa-gears" style="color: #f0c76f;"></i></a>
+            <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Admin(Office)</a>
+            
+            </li>
+            <hr>
+            <li class="pb-5" style="list-style: none;">
+              <i class="fa-solid fa-calendar-plus" style="color: #f0c76f;"></i>
+            <a href="/timetable" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Update Time Tables</a>
+            
+            </li>
+            <hr>
+            <li class="" style="list-style: none;">
+              <i class="fa-solid fa-file-export" style="color: #f0c76f;"></i>
+            <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Reports</a>
+            
+            </li>
+               
+          </ul>
+
+      </div>
+    </div> 
+    <!-- End of First Column -->
+
+    <div class="col ">
+
+      <!-- first Card -->
+      
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header">You Have <span><i>({{count}})</i></span> Request In Total</h5>
+        <div class="card-body">
+          <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">IT <span>({{it_count}})</span></li>
+              <li class="list-group-item">Accountency <span>({{account_count}})</span></li>
+              <li class="list-group-item">Management <span>({{manage_count}})</span></li>
+              <li class="list-group-item">THM <span>({{thm_count}})</span></li>
+              <li class="list-group-item">English <span>({{english_count}})</span></li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End of First card -->
+
+      <!-- Second card -->
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header"> IT  </h5>
+        <div class="card-body">
+          
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover table table-bordered table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Red Book/ID</th>
+                  <th>Medical</th>
+                  <th>Confirmation</th>
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in result_it %}
+  
+  
+                <tr id="row_{{ loop.index }}">
+                  <td>{{ row[0] }}</td>  
+                <td>{{ row[1] }}</td>
+                <div class="photo-container">
+                  <td><img class="small-photo" src="static/images/{{row[2]}}"></td>
+                  <td><img class="small-photo" src="static/images/{{row[3]}}"></td>
+                 </div>           
+                <td><a class="btn btn-secondary btn-sm " href="/admin?action=itAccept&row_id={{ row[0] }} " role="button">Accept</a>|<a class="btn btn-danger btn-sm" href="/admin?action=itReject&row_id={{ row[0] }}" role="button">Reject</a></td>
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+          
+            </table>
+          </div>
+          
+          
+          
+        </div>
+      </div>
+      <hr>
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header"> Accountency  </h5>
+        <div class="card-body">
+          
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover table table-bordered table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Red Book/ID</th>
+                  <th>Medical</th>
+                  <th>Confirmation</th>
+                  
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in result_account %}
+  
+  
+                <tr >
+                  <td>{{ row[0] }}</td>
+                  <td>{{ row[1] }}</td>
+                  <div class="photo-container">
+                    <td><img class="small-photo" src="static/images/{{row[2]}}"></td>
+                    <td><img class="small-photo" src="static/images/{{row[3]}}"></td>
+                  </div>
+                  <td><a class="btn btn-secondary btn-sm" href="/admin?action=accAccept&row_id={{ row[0] }}"role="button">Accept</a>|<a class="btn btn-danger btn-sm"href="/admin?action=accReject&row_id={{ row[0] }}" role="button">Reject</a></td>
+  
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          
+          
+          
+        </div>
+      </div>
+      <hr>
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header"> Management  </h5>
+        <div class="card-body">
+         <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <table class="table table-hover table table-bordered table-striped mb-0">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Red Book/ID</th> 
+                <th>Medical</th>
+                <th>Confirmation</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result_manage %}
+
+
+              <tr>
+                <td>{{ row[0] }}</td>  
+              <td>{{ row[1] }}</td>
+              <div class="photo-container">
+                <td><img class="small-photo" src="static/images/{{row[2]}}"></td>
+                <td><img class="small-photo" src="static/images/{{row[3]}}"></td>
+               </div>           
+              <td><a class="btn btn-secondary btn-sm" href="/admin?action=manaAccept&row_id={{ row[0] }} role="button">Accept</a>|<a class="btn btn-danger btn-sm" href="/admin?action=manaReject&row_id={{ row[0] }}" role="button">Reject</a></td>
+              </tr>
+              
+              {% endfor %}
+            </tbody>
+          </table>
+         </div>
+
+          
+          
+          
+        </div>
+      </div>
+      <hr>
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header"> THM  </h5>
+        <div class="card-body">
+          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover table table-bordered table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                   <th>Name</th>
+                  <th>Red Book/ID</th>                 
+                  <th>Medical</th>
+                  <th>Confirmation</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in result_thm %}
+                <tr>
+                  <td>{{ row[0] }}</td>
+                 <td>{{ row[1] }}</td>
+                 <div class="photo-container">
+                  <td><img class="small-photo" src="static/images/{{row[2]}}"></td>
+                  <td><img class="small-photo" src="static/images/{{row[3]}}"></td>
+                  </div>
+                  <td><a class="btn btn-secondary btn-sm" href="/admin?action=thmAccept&row_id={{ row[0] }}" role="button">Accept</a>|<a class="btn btn-danger btn-sm" href="/admin?action=thmReject&row_id={{ row[0] }}" role="button">Reject</a></td>
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="card bg-body-tertiary pt-3">
+        <h5 class="card-header"> English  </h5>
+        <div class="card-body">
+          <div  class="table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table table-hover table table-bordered table-striped mb-0">
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Name</th>
+                  <th>Red Book/ID</th>   
+                  <th>Medical</th>
+                  <th>Confirmation</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in result_en %}
+                <tr>
+                  <td>{{ row[0] }}</td> 
+                 <td>{{ row[1] }}</td>
+                 <div class="photo-container">
+                  <td><img class="small-photo" src="static/images/{{row[2]}}"></td>
+                  <td><img class="small-photo" src="static/images/{{row[3]}}"></td>
+                </div>
+                  <td><a class="btn btn-secondary btn-sm" href="/admin?action=engAccept&row_id={{ row[0] }}" role="button">Accept</a>|<a class="btn btn-danger btn-sm" href="/admin?action=engReject&row_id={{ row[0] }}" " role="button">Reject</a></td>
+                </tr>
+                
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          
+          
+          
+        </div>
+      </div>
+
+      
+      <!-- end of Second card bundle -->
+      
+    </div>
+    <!-- End of Second Column -->
+    
+  </div>
+  <div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content">
+      <img id="modal-image" src="">
+    </div>
+  </div>
+  
+  <script>
+    // Get the modal element and the image element within it
+    const modal = document.getElementById("modal");
+    const modalImage = document.getElementById("modal-image");
+
+    // Get all the small photos
+    const smallPhotos = document.querySelectorAll(".small-photo");
+
+    // Add click event listener to each small photo
+    smallPhotos.forEach(photo => {
+      photo.addEventListener("click", function() {
+        // Set the source of the modal image to the clicked small photo's source
+        modalImage.src = photo.src;
+
+        // Display the modal
+        modal.style.display = "block";
+      });
+    });
+
+    // Close the modal when the close button or outside the modal is clicked
+    modal.addEventListener("click", function(event) {
+      if (event.target === modal || event.target.className === "close") {
+        modal.style.display = "none";
+      }
+    });
+
+    // Close the modal when the Esc key is pressed
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape") {
+        modal.style.display = "none";
+      }
+    });
+
+    function acceptRow(rowId) {
+    var row = $('#' + rowId);
+    row.addClass('accepted-row');
+  }
+
+  function rejectRow(rowId) {
+    var row = $('#' + rowId);
+    row.addClass('rejected-row');
+  }
+
+  // color changing
+
+  </script>
+  
+{% endblock %}
+
+
+

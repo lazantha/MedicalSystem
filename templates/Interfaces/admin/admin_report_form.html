@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Report Form</title>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="card text-center">
+    <div class="card-header">
+      Gather Report 
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Fill The Form </h5>
+
+      <form action="/adminReports" method="post">
+        <div class="form_frame">
+        {{form.hidden_tag()}}
+        <span class="span-form">Year of Examination:</span>{{ form.date(class="date", placeholder="YYYY", maxlength=4, min=2020, max=2099) }}
+    
+        {{form.departments(class="dep")}}
+        <span class="span-form">Academic Year:</span>:{{form.years(class="yrs")}}
+        <span class="span-form">Semester:</span>{{form.semesters(class="sem")}}
+        <span class="span-form">(FT / PT):</span>{{form.student_type()}}
+        {{form.update(class="btn btn-primary btn-sm")}}
+        </div>
+    </form>
+
+    </div>
+
+    <div class="card-footer text-body-secondary">
+      2 days ago
+    </div>
+  </div>
+
+
+{% endblock %}
+

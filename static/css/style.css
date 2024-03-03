@@ -1,0 +1,62 @@
+:root{
+    --font_base:"alpino",sans-serif;
+    color: black;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+a{
+    text-decoration: none;
+    
+
+
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.top{
+    background-color: rgba(187, 184, 184, 0.932);
+    width: 100%;
+    height: 20%;
+    overflow: hidden;
+    
+}
+.top>h2{
+    margin: 1rem;
+    margin-left: 3rem;
+}
+.top h2,.top a{
+    float: left;
+    position: relative;
+    
+
+}
+.top h2 a{
+    text-decoration: none;
+}
+
+
+.top ul{
+    position: relative;
+    float: right;
+    list-style: none;
+    padding: 1rem;
+
+}
+.top ul li{
+    display: inline-block;
+
+}
+.top ul li a{
+    font-size: 1.23em;
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-weight: bolder;
+    
+
+
+}
+
+

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>{User}</title>
+ 
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class=" row" >
+  
+  <!-- first Column -->
+  <div class="col-3 border-top border-end rounded-end" style="background-color: #344ba0;height: 100vh;">
+
+    <div class="mt-5 ps-3">
+      <span style="margin: 0; padding: 0; color: #f0c76f; margin-left: 1rem; padding-left: 1rem;"><i> Hi {{name|title}}</i></span>
+      <div style="text-align: center;margin-bottom: 3rem;">
+        <a href="/userLogOut" class="fs-4 border-bottom "><i class="fa-solid fa-power-off" style="color: #f0c76f;"></i></a>
+      </div>
+      
+        <ul class="">
+        
+          <li class="pb-5" style="list-style: none;">
+            
+            <a href="#"><i class="fa-solid fa-gears" style="color: #f0c76f;"></i></a>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Request Form</a>
+          
+          </li>
+          <hr>
+         
+          <hr>
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-file-export" style="color: #f0c76f;"></i>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Cademic Calanders</a>
+          
+          </li>
+          <hr>
+          <li class="" style="list-style: none;">
+            <i class="fa-solid fa-chart-line" style="color: #f0c76f;"></i>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Statistics</a>
+          
+          </li>
+          
+             
+        </ul>
+
+    </div>
+  </div> 
+  <!-- End of First Column -->
+
+  <div class="col">
+
+    <div class="card text-center">
+      <div class="card-header">
+        <i>CLOSING DATE FOR THE ALL SUBMISSION <h5 style="color: red;">{{closing_date}}</h5></i>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Submit Your Medical !</h5>
+        <p class="card-text">Only provide authorized information to avoid problems..</p>
+        <a href="/request_form" class="btn btn-primary" target="_self">Form</a>
+      </div>
+      <div class="card-footer text-body-secondary">
+        <p> You Have <i style="color: red;" id="remain_days">{{remaining_days}}</i>:Days For Apply !</p>
+      </div>
+    </div>
+
+   
+    <!-- second card -->
+    <div class="card" style="width: 40rem;">
+      <div class="card-body">
+        <h5 class="card-title">Submision History</h5>
+        <table class="table table-hover table table-bordered table-striped mb-0">
+          <thead>
+            <tr>           
+              <th>Subject</th>
+              <th>Attempt</th>
+              <th>Comfirmation</th>
+              <th>Authentication</th>
+              
+              
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in result %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>
+                  {% if row[2] == 1 %}
+                    Accepted
+                  {% elif row[2] == -1 %}
+                    Rejected
+                  {% endif %}
+                </td>
+                <td>
+                  {% if row[3] == 0 %}
+                    Pending
+                  {% elif row[3] == 1 %}
+                    Authenticated
+                  {% elif row[3] == -1 %}
+                    Rejected
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          
+        </table>
+      </div>
+    </div>
+
+
+
+
+    
+  </div>
+  <!-- End of Second Column -->
+  
+</div>
+
+<script>
+  var remain_day = document.getElementById('remain_days');
+  var remain_value = parseInt(remain_day.textContent); // Convert to an integer
+  var current_date = new Date(); // Get the current date and time
+  var target_date = new Date(current_date.getTime() + remain_value * 24 * 60 * 60 * 1000); // Add remaining days in milliseconds
+
+  // Function to check and disable the button if the target date is reached
+  function checkTargetDate() {
+      if (current_date >= target_date) {
+          var btnForm = document.getElementById('btnForm');
+          btnForm.disabled = true;
+      }
+  }
+
+  // Call the checkTargetDate function when the page loads
+  window.onload = function() {
+      checkTargetDate();
+  };
+</script>
+
+{% endblock %}
+
+
+

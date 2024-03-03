@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<title>Exams</title>
+ <style>
+  .my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+ </style>
+{% endblock %}
+
+{% block content %}
+
+<div class=" row" >
+  {{form.hidden_tag()}}
+  <!-- first Column -->
+  <div class="col-3 border-top border-end rounded-end" style="background-color: #344ba0;height: 100vh;">
+
+    <div class="mt-5 ps-3">
+      <span style="margin: 0; padding: 0; color: #f0c76f; margin-left: 1rem; padding-left: 1rem;"><i> WELCOME {{user_name}}</i></span>
+      <div style="text-align: center;margin-bottom: 3rem;">
+        <a href="{{url_for('superLogOut')}}" class="fs-4 border-bottom "><i class="fa-solid fa-power-off" style="color: #f0c76f;"></i></a>
+      </div>
+      
+        <ul class="">
+          
+          <li class="pb-5" style="list-style: none;">
+            <a href=""><i class="fa-solid fa-gears" style="color: #f0c76f;"></i></a>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Admin(HOD)</a>
+          
+          </li>
+          <hr>
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-calendar-plus" style="color: #f0c76f;"></i>
+          <a href="/exams" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Update Time Tables</a>
+          
+          </li>
+          <hr>
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-calendar-plus" style="color: #f0c76f;"></i>
+          <a href="/addSubjects" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Insert New Subjects</a>
+          
+          </li>
+          
+          <hr>
+          
+          <li class="pb-5" style="list-style: none;">
+            <i class="fa-solid fa-file-export" style="color: #f0c76f;"></i>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Reports</a>
+          
+          </li>
+          <hr>
+          <li class="" style="list-style: none;">
+            <i class="fa-solid fa-chart-line" style="color: #f0c76f;"></i>
+          <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" style="text-decoration: none;">Statistics</a>
+          
+          </li>
+          
+             
+        </ul>
+
+    </div>
+  </div> 
+  <!-- End of First Column -->
+
+  <div class="col">
+
+    <!-- first Card -->
+    <!-- table -->
+    <div class="card bg-body-tertiary pt-3">
+      <center><b><h5 class="card-header"> DEPARTMENT OF {{department|upper}}</h5></b></center>
+      <div class="card">
+        <div class="card-header">
+          Search Subjects
+        </div>
+        <div class="card-body">
+          <form action="/exams" method="get">
+            <input type="text" placeholder="Subject" name="subject">
+            <input type="text" placeholder="Code" name="code">
+            <input type="text" placeholder="Location" name="location">
+            <input type="date" name="date">
+            <input type="submit" value="Search">
+          </form>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Code</th>
+                <th>Location</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in result_set %}
+                <tr>
+                  <td>{{row[0]}}</td>
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+                  <td>{{row[3]}}</td>
+                  
+                  
+                  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <center><span>Update Time table</span></center>
+        <div class="card-body">
+        
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Update</th>
+                    
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <form action="/exams" method="POST">
+                        {{form.hidden_tag()}}
+                        {{ form.csrf_token }}
+                        <td>{{form.subject_name(class="w-50 form-select")}}</td>
+                        <td>{{form.date()}}</td>
+                        <td>{{form.start_time()}}</td>
+                        <td>{{form.end_time()}}</td>
+                        <td>{{form.location(class="w-75")}}</td>
+                        <td>{{form.update(class="btn btn-success btn-sm")}}</td>
+                    
+                    
+                    
+                  </tr>
+                  
+                </tbody>
+              </table>
+              
+              <hr style="color: blue;">
+              <center><b><h5 class="card-header"> TIME TABLE</h5></b></center>
+              
+              <div class="table-wrapper-scroll-y my-custom-scrollbar">
+              <table class="table table-hover table table-bordered table-striped mb-0">
+                <thead>
+                  <tr>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Code</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
+                    <th scope="col">Location</th>
+                    <th scope="col"></th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for row in form_data %}
+                  <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1]}}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td><a class="btn btn-warning btn-sm " href="/updateExam?row_id={{ row[1] }} ">Edit</a>
+                      <a class="btn btn-danger btn-sm " href="/exams?row_id={{ row[1] }} ">Delete</a>
+                    
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </form>
+              </table>
+            </div>
+              
+              
+        
+        
+        
+        </div>
+    </div>
+    <!-- End of First card -->
+
+    <!-- Second card -->
+    
+
+    
+    <!-- end of Second card bundle -->
+    
+  </div>
+  <!-- End of Second Column -->
+  
+</div>
+
+
+<script>
+  $(document).ready(function(){
+    $('#search').click(function(){
+      var subject=$('#subject').val();
+      var date=$('#date').val();
+      console.log(subject)
+      console.log(date)
+
+    });
+  });
+</script>
+{% endblock %}
+
+
+

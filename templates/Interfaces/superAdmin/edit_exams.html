@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Update</title>
+{% endblock %}
+
+{% block body %}
+
+  <div class="card align-middle">
+    <div class="card-header">
+      Featured
+    </div>
+    <div class="card-body">
+
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Subject</th>
+            <th scope="col">Date</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Location</th>
+            <th scope="col">Update</th>
+            
+            
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <form action="/updateExam" method="POST">
+                {{form.hidden_tag()}}
+                {{ form.csrf_token }}
+                <td>{{form.subject_name(class="w-50 form-select")}}</td>
+                <td>{{form.date()}}</td>
+                <td>{{form.start_time()}}</td>
+                <td>{{form.end_time()}}</td>
+                <td>{{form.location(class="w-75")}}</td>
+                <td>{{form.update(class='btn btn-warning btn-sm')}}</td>
+            </form>
+            
+            
+          </tr>
+          
+        </tbody>
+      </table>
+
+
+    </div>
+  </div>
+
+{% endblock %}

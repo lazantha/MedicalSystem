@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block head %}
+
+<title>Log In</title>
+{% endblock %}
+
+{% block content%}
+<fieldset  class="container p-3 mb-2 bg-light text-dark pt-5 mt-5">
+  <legend><span><i>Log In</i></span></legend>
+  <form action="/adminlog" method="POST" class="container pt-5">
+    {{form.hidden_tag()}}
+    <div class="form-floating mb-3">
+      {{form.user_name(class="form-control" ,id="floatingInput" ,placeholder="name@example.com")}}
+      <label for="floatingInput">{{form.user_name.label}}</label>
+    </div>
+
+    <div class="form-floating">
+       {{form.password(class="form-control", id="floatingPassword", placeholder="Password")}}
+      <label for="floatingPassword">{{form.password.label}}</label>
+    </div>
+
+    <div class="form-floating">
+      {{form.possition(class="form-control  possition-select", id="floatingInput" )}}
+      <label for="floatingInput">{{form.possition.label}}</label>
+    </div>
+
+    <div class="form-floating department-div" style="display: none;">
+      {{form.department(class="form-control department-select", id="floatingInput" )}}
+      <label for="floatingInput">{{form.department.label}}</label>
+    </div>
+    
+    
+    <div class="mb-3">
+      {{form.submit(class="btn btn-outline-primary")}}
+      <input type="reset" value="Reset" class="btn btn-outline-warning">
+    </div>
+    <p><span><a href="{{url_for('adminSign')}}"><span><i>Not have an Account !</i></span></a></span></p>
+    
+
+  </form>
+
+</fieldset>
+<script>
+   var possitionSelect = document.querySelector(".possition-select");
+        var departmentDiv = document.querySelector(".department-div");
+        var departmentSelect = document.querySelector(".department-select");
+
+        possitionSelect.addEventListener("change", function() {
+            if (possitionSelect.value == "OFFICE") {
+                // Hide the "department" input field
+                departmentDiv.style.display = "none";
+                departmentSelect.value = "";
+            } else if (possitionSelect.value == "HOD") {
+                // Show the "department" input field
+                departmentDiv.style.display = "block";
+            }
+        });
+
+</script>
+  
+
+{% endblock %}
+
+
+

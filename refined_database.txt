@@ -1,0 +1,311 @@
+# Sucess !
+import mysql.connector
+
+class MySql:
+    def __init__(self):
+        self.host = 'localhost'
+        self.database = 'test_medical_db'
+        self.user = 'root'
+        self.password = None
+        self.connection = mysql.connector.connect(host=self.host, database=self.database, user=self.user, password=self.password)
+        self.cursor = self.connection.cursor(prepared=True)
+    
+    def table(self, query, data):
+        try:
+            self.cursor.execute(query, data)
+            self.connection.commit()
+            print("Success !")
+        except mysql.connector.Error as error:
+            print("Query failed {}".format(error))
+        finally:
+            if self.connection is not None and self.connection.is_connected():
+                self.connection.close()
+                print("Connection Closed !")
+    
+    def insertData(self, query):
+        try:
+            self.cursor.execute(query)
+            self.connection.commit()
+            print("Success !")
+        except mysql.connector.Error as error:
+            print("Query failed {}".format(error))
+        finally:
+            if self.connection is not None and self.connection.is_connected():
+                self.connection.close()
+                print("Connection Closed !")
+				
+    
+
+
+    def fetchOneForeing(self, query, data):
+
+        try:
+            self.cursor.execute(query, data)
+            result = self.cursor.fetchone()
+            if result:
+                return result[0]
+            else:
+                return "No value"
+                print("getting success !")
+        except mysql.connector.Error as error:
+            print("query failed {}".format(error))
+        finally:
+            if self.connection is not None and self.connection.is_connected():
+                self.connection.close()
+                print("Connection Closed !")
+    
+
+
+    def fetchAllMulForeing(self, query, data):
+
+        try:
+            self.cursor.execute(query, data)
+            result = self.cursor.fetchall()
+            return result
+            print("getting success !")
+        except mysql.connector.Error as error:
+            print("query failed {}".format(error))
+        finally:
+            if self.connection is not None and self.connection.is_connected():
+                self.connection.close()
+                print("Connection Closed !")
+
+
+    def fetchOne(self,query):
+        try:
+            self.cursor.execute(query)
+            result=self.cursor.fetchone()
+            return result[0]
+            print("getting success !")
+        except mysql.connector.Error as error:
+                print("query failed {}".format(error))
+        finally:
+            if self.connection != None and self.connection.is_connected():
+                self.connection.close()
+                print("Connection Closed !")
+        
+
+
+	
+
+
+
+    
+    
+
+
+
+
+
+# # FOR SINGLE QUERY
+	
+	
+# 	#FOR SINGLE QUERY WITHOUT BINDING 
+# 	def fetchMultiVal(self,query):
+# 		try:
+			
+# 			if self.cursor.execute(query)
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+		
+# 	#without binding
+# 	def delete(self, query):
+
+# 		try:
+			
+# 			if self.cursor.execute(query)
+# 			if self.connection.commit()  # Commit the deletion operation
+# 			print("Deletion successful!")
+# 		except mysql.connector.Error as error:
+# 			print("Query failed: {}".format(error))
+# 		finally:
+# 			if if self.connection is not None and if self.connection.is_connected():
+# 				cursor.close()  # Close the cursor
+# 				if self.connection.close()  # Close the connection
+# 				print("Connection closed!")
+
+	
+	
+
+# 	def deleteMulti(self, query, data):
+# 		connection = None
+# 		try:
+# 			connection = mysql.connector.connect(
+# 				host=self.host,
+# 				database=self.database,
+# 				user=self.user,
+# 				password=None
+# 			)
+# 			cursor = connection.cursor(prepared=True)
+# 			cursor.execute(query, data)
+# 			connection.commit()  # Commit the changes to the database
+# 			print("Deletion successful!")
+# 		except mysql.connector.Error as error:
+# 			print("Query failed: {}".format(error))
+# 		finally:
+# 			if connection is not None and connection.is_connected():
+# 				cursor.close()  # Close the cursor
+# 				connection.close()  # Close the connection
+# 				print("Connection closed!")
+
+		
+# 	#edit..
+# 	def getCount(self,department):
+
+# 		try:
+			
+# 			query="SELECT count(*) FROM subjects AS s INNER JOIN medical_infor AS mi ON s.subject_id=mi.subject_id INNER JOIN departments AS dep ON s.department_id=dep.id WHERE dep.calling_name=%s AND mi.is_confirm=0 AND mi.is_authenticate=0 ;"
+# 			if self.cursor.execute(query,(department,))
+# 			result=if self.cursor.fetchone()
+# 			return result[0]
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+
+
+# 	def getMain(self,department):
+# 		try:
+			
+# 			query="SELECT st.user_id,st.email,first_name,id_card,mi.medical_sheet FROM students AS st INNER JOIN medical_infor AS mi ON st.user_id =mi.user_id INNER JOIN departments AS dep ON st.department_id=dep.id WHERE dep.calling_name=%s AND mi.is_confirm=0 AND mi.is_authenticate=0 ORDER BY mi.recorded_time DESC;"
+# 			if self.cursor.execute(query,(department,))
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+		
+
+
+# 	def getUniqeCountYear(self,department):
+# 		try:
+			
+# 			query="SELECT DISTINCT s.year FROM subjects AS s INNER JOIN departments AS dep ON s.department_id=dep.id WHERE dep.calling_name=%s;"
+# 			if self.cursor.execute(query,(department,))
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+
+# 	def getUniqeCountSem(self,department):
+# 		try:
+			
+# 			query="SELECT DISTINCT s.semester FROM subjects AS s INNER JOIN departments AS dep ON s.department_id=dep.id WHERE dep.calling_name=%s;"
+# 			if self.cursor.execute(query,(department,))
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+	
+# 	def getUniqeCountSub(self,department):
+# 		try:
+			
+# 			query="SELECT sub.subject_name FROM subjects AS sub INNER JOIN exams AS ex ON ex.subject_id=sub.subject_id INNER JOIN departments AS dep ON dep.id=sub.department_id WHERE dep.calling_name=%s;"
+# 			if self.cursor.execute(query,(department,))
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+	
+# 	#time table data
+# 	def getValues(self,data):
+# 		try:
+			
+# 			query="SELECT sub.subject_name,subject_code,ex.held_date,start_time,end_time,location FROM departments AS dep INNER JOIN subjects AS sub ON dep.id=sub.department_id INNER JOIN exams AS ex ON sub.subject_id=ex.subject_id WHERE dep.calling_name=%s;"
+# 			if self.cursor.execute(query,data)
+# 			result=if self.cursor.fetchall()
+# 			return(result)
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+
+# 	def getMainSuper(self,dep,confirm):
+# 		try:
+			
+# 			query="SELECT st.user_id,st.email,  sub.subject_name ,att.attempt, mi.exam_date,mi.exam_location FROM medical_infor AS mi INNER JOIN subjects AS sub ON sub.subject_id=mi.subject_id INNER JOIN attempts AS att ON att.id=mi.attempt_id  INNER JOIN students AS st ON st.user_id=mi.user_id INNER JOIN departments AS dep ON dep.id=sub.department_id  WHERE dep.calling_name=%s AND mi.is_confirm=%s AND mi.is_authenticate=0;"
+# 			if self.cursor.execute(query,(dep,confirm))
+# 			result=if self.cursor.fetchall()
+# 			return result
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if if self.connection != None and if self.connection.is_connected():
+# 				if self.connection.close()
+# 				print("Connection Closed !")
+	
+
+# 	def update(self, query, data):
+# 		try:
+			
+# 			self.cursor.execute(query, data)
+# 			self.connection.commit()
+# 			print("Success!")
+# 		except mysql.connector.Error as error:
+# 			print("Query failed: {}".format(error))
+# 		finally:
+# 			if self.connection is not None andself. connection.is_connected():
+# 				self.connection.close()
+# 				print("Connection closed!")
+	
+# 	def getDynamicRow(self,query,data):
+# 		try:
+# 			self.cursor.execute(query,data)
+# 			result=self.cursor.fetchone()
+# 			return(result[0])
+# 			print("getting success !")
+# 		except mysql.connector.Error as error:
+# 			print("query failed {}".format(error))
+# 		finally:
+# 			if self.connection != None and self.connection.is_connected():
+# 				self.connection.close()
+# 				print("Connection Closed !")
+
+    
+
+
+
+
+
+		
+
+	
+
+
+
+# # newSql=MySql()
+# # query="INSERT INTO user VALUES(2,'nimal','nimalPass');"
+# # newSql.table(query,host,database,user,password)

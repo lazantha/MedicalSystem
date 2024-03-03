@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Request</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+{% block content %}
+
+
+<fieldset class="container p-3 mb-2 bg-light text-dark pt-5 mt-5">
+  <legend><span><i>Request Medical</i></span></legend>
+  <form action="/request_form" method="POST" enctype="multipart/form-data" class="container pt-5">
+    {{form.hidden_tag()}}
+   
+    <!-- date issued -->
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">    
+          <label for="example">{{form.date_issued.label}} <br><small><i style="color: red;">Cross-Checking with Your Medical Sheet!</i></small></label>
+          {{form.date_issued(class="form-control",id="date_issued")}}
+          <i class="fas fa-calendar input-prefix"></i>
+        </div>
+      </div>
+    </div>
+    <!-- start date -->
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true"> 
+            <label for="example">{{form.start_date.label}}</label>
+            {{form.start_date(class="form-control",id="start_date")}}
+            <i class="fas fa-calendar input-prefix"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- end date -->
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+              <label for="example">{{form.end_date.label}}</label>
+              {{form.end_date(class="form-control",id="end_date")}}
+              <i class="fas fa-calendar input-prefix"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- attempt -->
+      <div class="form-floating">
+        {{form.attempt(class="form-control", id="attempt")}}
+        <label for="floatingInput">{{form.attempt.label}}</label>
+      </div>
+      <!-- doc_name -->
+      <div class="form-floating">
+        {{form.doc_name(class="form-control", id="doc_name")}}
+        <label for="floatingInput">{{form.doc_name.label}}</label>
+      </div>
+      <!-- hospital-->
+      <div class="form-floating">
+        {{form.hospital(class="form-control", id="hospital")}}
+        <label for="floatingInput">{{form.hospital.label}}</label>
+      </div>
+      <!-- method -->
+      <div class="mb-3">
+        <label for="floatingInput" class="form-label">{{form.med_type.label}}</label>
+        {{form.med_type(class='form-control',style='list-style:none')}}
+      </div>
+      <!-- med_pic -->
+      <div class="mb-3">
+        <label for="floatingInput" class="form-label">{{form.med_image.label}} <small><br><i style="color: red;">* The captured photo of the medical sheet must match the issued date of the medical sheet(Both tasks should be completed within a 24-hour timeframe.).</i></small></label>
+        {{form.med_image(class='form-control')}}
+        {% if form.med_image.errors %}
+            <ul>
+                {% for error in form.med_image.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+      </div>
+
+    <!-- year -->
+    <div class="form-floating">
+      {{form.year(class="form-control", id="year")}}
+      <label for="floatingInput">{{form.year.label}}</label>
+    </div>
+    <!-- semester -->
+    <div class="form-floating">
+      {{form.semester(class="form-control", id="semester" )}}
+      <label for="floatingInput">{{form.semester.label}}</label>
+    </div>
+    <!-- subject -->
+
+    <div class="form-floating">
+      {{form.subject(class="form-control", id="subject",style="list-style:none")}}
+      <label for="floatingInput">{{form.subject.label}}</label>
+    </div>    
+    <div class="row">
+  
+  </div>
+ 
+</div>
+     <div class="form-group">
+      {{form.submit(class='btn btn-outline-primary')}}
+      <input type="reset" value="Reset" class="btn btn-outline-warning">
+     </div>
+    
+  </form>
+</fieldset>
+<script>
+  $(document).ready(function() {
+    // Get the subjects field and its initial options
+    var subjectsField = $('#subject'); // Assuming the ID of the subjects field is 'subject'
+    var initialOptions = subjectsField.html();
+
+    // Get the year field and its initial value
+    var yearField = $('#year'); // Assuming the ID of the year field is 'year'
+    var initialYear = yearField.val();
+
+    // Listen for changes in the semester and year fields
+    $('#semester, #year').on('change', function() {
+      var selectedSemester = $('#semester').val();
+      var selectedYear = $('#year').val();
+      console.log(selectedSemester)
+      console.log(selectedYear)
+      
+      // Make an AJAX request to fetch the subjects based on the selected semester and year
+      $.ajax({
+        url: '/get_subjects',  // Update the URL according to your Flask route
+        method: 'POST',  // Use the appropriate HTTP method
+        data: {
+          semester: selectedSemester,
+          year: selectedYear
+        },  // Pass the selected semester and year to the server
+        success: function(response) {
+          // Clear the current options
+          subjectsField.empty();
+
+          // Append the fetched subjects as new options
+          $.each(response, function(index, value) {
+            subjectsField.append($('<option>').text(value).attr('value', value));
+          });
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+  });
+
+
+
+  // Get the current date
+  var today = new Date();
+
+  // Format the date as YYYY-MM-DD
+  var formattedDate = today.toISOString().split('T')[0];
+
+  // Set the max attribute of the date input field
+  document.getElementById("start_date").max = formattedDate;
+  document.getElementById("end_date").max=formattedDate;
+
+
+</script>
+
+
+
+
+
+  
+
+{% endblock %}

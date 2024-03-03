@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Admin SignUp</title>
+ 
+{% endblock %}
+
+
+{% block content %}
+
+<!-- recieved messeges -->
+
+<fieldset class="container p-3 mb-2 bg-light text-dark pt-5 mt-5">
+  <legend><span><i>Sign Up !</i></span></legend>
+  <form action="/adminSign" method="POST">
+    {{form.hidden_tag()}}
+    <div class="form-floating mb-3">
+      {% if form.first_name.errors %}
+        {{form.first_name(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+        <div class="invalid-feedback">
+            {% for error in form.first_name.errors  %}
+              <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {%else%}
+          {{form.first_name(class="form-control",id="floatingInput",placeholder="Kevin")}}
+      {% endif %}
+      <label for="floatingInput">{{form.first_name.label}}</label>
+    </div>
+
+    <div class="form-floating">
+       {% if form.last_name.errors %}
+        {{form.last_name(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+        <div class="invalid-feedback">
+            {% for error in form.last_name.errors  %}
+              <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {%else%}
+          {{form.last_name(class="form-control",id="floatingInput",placeholder="Re")}}
+      {% endif %}
+      <label for="floatingInput">{{form.last_name.label}}</label>
+
+    </div>
+
+    <!-- gender -->
+    <div class="form-floating">
+       {% if form.gender.errors %}
+        {{form.gender(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+        <div class="invalid-feedback">
+            {% for error in form.gender.errors  %}
+              <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {%else%}
+          {{form.gender(class="form-control",id="floatingInput",placeholder="Re")}}
+      {% endif %}
+      <label for="floatingInput">{{form.gender.label}}</label>
+
+    </div>
+
+    <div class="form-floating mb-3">
+       {% if form.email.errors %}
+       {{form.email(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+       <div class="invalid-feedback">
+           {% for error in form.email.errors  %}
+             <span>{{error}}</span>
+           {% endfor %}
+       </div>
+       {%else%}
+         {{form.email(class="form-control",id="floatingInput",placeholder="mail")}}
+     {% endif %}
+     <label for="floatingInput">{{form.email.label}}</label>
+
+    </div>
+
+    <div class="form-floating">
+       {% if form.password.errors %}
+       {{form.password(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+       <div class="invalid-feedback">
+           {% for error in form.password.errors  %}
+             <span>{{error}}</span>
+           {% endfor %}
+       </div>
+       {%else%}
+         {{form.password(class="form-control",id="floatingInput",placeholder="Password")}}
+     {% endif %}
+     <label for="floatingInput">{{form.password.label}}</label>
+    </div>
+
+    <div class="form-floating">
+       {% if form.confirm_password.errors %}
+       {{form.confirm_password(class="form-control is-invalid",id="floatingInput",placeholder="Kevin")}}
+       <div class="invalid-feedback">
+           {% for error in form.confirm_password.errors  %}
+             <span>{{error}}</span>
+           {% endfor %}
+       </div>
+       {%else%}
+         {{form.confirm_password(class="form-control",id="floatingInput",placeholder="confirm_passoword")}}
+     {% endif %}
+     <label for="floatingInput">{{form.confirm_password.label}}</label>
+
+    </div>
+    <div class="form-floating">
+      {{form.possition(class="form-control  possition-select", id="floatingInput" )}}
+      <label for="floatingInput">{{form.possition.label}}</label>
+     
+    </div>
+
+    <div class="form-floating department-div "style="display: none;"  >
+      
+
+      {{form.department(class="form-control department-select", id="floatingInput" )}}
+      <label for="floatingInput">{{form.department.label}}</label>
+       
+     
+    </div>
+    
+    <div class="form-group">
+      {{form.submit(class='btn btn-outline-primary')}}
+      <input type="reset" value="Reset" class="btn btn-outline-warning">
+    </div>
+
+    <p><span><a href="{{url_for('adminlog')}}"><span><i>Have an Account ?</i></span></a></span></p>
+    
+  </form>
+</fieldset>
+  
+<script>
+        var possitionSelect = document.querySelector(".possition-select");
+        var departmentDiv = document.querySelector(".department-div");
+        var departmentSelect = document.querySelector(".department-select");
+
+        possitionSelect.addEventListener("change", function() {
+            if (possitionSelect.value == "OFFICE") {
+                // Hide the "department" input field
+                departmentDiv.style.display = "none";
+                departmentSelect.value = "";
+            } else if (possitionSelect.value == "HOD") {
+                // Show the "department" input field
+                departmentDiv.style.display = "block";
+            }
+        });
+        
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+
+
+<fieldset >
+    <legend>Genaral Information For:{{year}} </legend>
+
+        
+         <div class="card text-center">
+            <div class="card-header">
+              Gaher Report
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Fill To Genarate PDF</h5>
+              
+              <form action="/superAdminReports" method="post">
+
+                <div class="form_frame">
+                {{form.hidden_tag()}}
+                <span class="span-form">Year of Examination:</span>{{ form.date(class="date", placeholder="YYYY", maxlength=4, min=2020, max=2099) }}
+                <span class="span-form">Academic Year:</span>:{{form.years(class="yrs")}}
+                <span class="span-form">Semester:</span>{{form.semesters(class="sem")}}
+                <span class="span-form">(FT / PT):</span>{{form.student_type()}}
+                {{form.update(class="btn btn-primary btn-sm")}}
+                </div>
+             </form>
+
+            </div>
+            <div class="card-footer text-body-secondary">
+              2 days ago
+            </div>
+          </div>
+</fieldset>
+
+
+{% endblock %}
+
+
+
+
+
+

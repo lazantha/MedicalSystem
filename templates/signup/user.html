@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>User SignUp</title>
+ 
+{% endblock %}
+
+
+{% block content %}
+
+<fieldset class="container p-3 mb-2 bg-light text-dark pt-5 mt-5">
+  <legend><span><i>Sign Up !</i></span></legend>
+  <form action="/userSign" method="POST" enctype="multipart/form-data">
+    {{form.hidden_tag()}}
+    <div class="form-floating mb-3">
+      {{form.first_name(class="form-control",id="floatingInput",placeholder="Kevin")}}
+      <label for="floatingInput">{{form.first_name.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.last_name(class="form-control",id="floatingInput",placeholder="Re")}}
+      <label for="floatingInput">{{form.last_name.label}}</label>
+    </div>
+
+    
+    <div class="form-floating">
+      {{form.index_number(class="form-control",id="floatingInput",placeholder="")}}
+      <label for="floatingInput">{{form.index_number.label}}</label> 
+      {% if form.index_number.errors %}
+            <ul>
+                {% for error in form.index_number.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <!-- type -->
+    <div class="form-floating">
+      {{form.mode(class="form-control",id="floatingInput")}}
+      <label for="floatingInput">{{form.mode.label}}</label>
+    </div>
+    
+    <div class="form-floating">
+      {{form.gender(class="form-control",id="floatingInput",placeholder="Re")}}
+      <label for="floatingInput">{{form.gender.label}}</label>
+    </div>
+    
+    <div class="form-floating">
+      <!-- <input type="password" class="form-control" id="floatingPassword" placeholder="Password"> -->
+      {{form.department(class="form-control", id="floatingInput" )}}
+      <label for="floatingInput">{{form.department.label}}</label>
+    </div>
+    
+
+    <div class="form-floating mb-3">
+      {{form.email(class="form-control",id="floatingInput",placeholder="name@example.com")}}
+      <label for="floatingInput">{{form.email.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.password(class="form-control",id="floatingPassword",placeholder="Password")}}
+      <label for="floatingPassword">{{form.password.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.confirm_password(class="form-control",id="floatingPassword",placeholder="Password")}}
+      <label for="floatingPassword">{{form.confirm_password.label}}</label>
+    </div>
+    <div class="form-floating">
+      {{form.id_card(class="form-control",id="floatingPassword",placeholder="Password")}}
+      <label for="floatingPassword">{{form.id_card.label}}</label>
+      {% if form.id_card.errors %}
+            <ul>
+                {% for error in form.id_card.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    
+    <div class="form-group">
+      {{form.submit(class='btn btn-outline-primary')}}
+      <input type="reset" value="Reset" class="btn btn-outline-warning">
+      
+    </div>
+    
+    <p><span><a href="{{url_for('userlog')}}"><span><i>Have an Account ?</i></span></a></span></p>
+    
+    
+    
+  </form>
+</fieldset>
+
+
+{% endblock %}
+
+
+

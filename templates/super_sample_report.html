@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .top-bar{
+            border: 1px solid black;
+            height: 15vh;
+            background-color: white;
+            
+        }
+        .topic{
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            color: steelblue;
+        }
+        body{
+            background: lightyellow;
+        }
+        fieldset{
+            margin-left: 05rem;
+        }
+        legend{
+            font-weight: bold;
+            
+        }
+        .year{
+            color: red;
+        }
+        hr{
+          color: slateblue;
+        }
+        .reject table tbody tr{
+          color: red;
+        }
+        .dep{
+          width: 100px;
+        }
+        .date{
+          height: 30px;
+        }
+        form{
+          padding-top: 1rem;
+        }
+        legend{
+          font-family: 'Times New Roman', Times, serif;
+          color: green;
+
+        }
+        .span-form{
+          font-size: 1.5em;
+          color: steelblue;
+        }
+        .sub_data td{
+          color: steelblue;
+        }
+        .confirmed td{
+          color: green;
+        }
+        .rejected td{
+          color: red;
+        }
+        .affected td{
+          color: brown;
+        }
+        .glance td{
+          color: darkblue;
+        }
+        .sub_data th{
+          color: darkgreen;
+        }
+    </style>
+
+</head>
+<body>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for message,category in messages %}
+      <div class="alert alert-{{category}} alert-dismissible fade show border border-top-0 border border-white h-50 " role="alert">
+          <p class="text-center text-uppercase fs-5 ">{{message}}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+      
+    {% endif %}
+  {% endwith %}
+  </div>
+    <div class="top-bar">
+        <div class="topic">
+            <h4>Medical Authentication System</h4>
+            <h4> DEPARTMENT OF  {{dep}}</h4>
+        <h5>Reports</h5>
+     </div>
+    </div>
+    <fieldset >
+            <legend>Genaral Information For:{{year}} </legend>
+        <div class="card w-75" >
+            <div class="card-header fs-5 fw-bolder">
+                Registrations
+              </div>
+              
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Total Students</th>
+                        <th>Authenticated</th>
+                        <th>Non Authenticated</th>
+                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{student_count}}</td>
+                        <td>{{authenticate}}</td>
+                        <td>{{non_authenticate}}</td>
+
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+              
+            </div>
+            <hr>
+            <br>
+
+        </div>
+        <hr>
+        <div class="card w-75">
+            <div class="card-header">
+              <h5>Authenticated List</h5>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Index Number</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in auth %}
+                            <tr>
+                                <td>{{row[0]}}</td>
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+              </table>
+            </div>
+          </div>
+          <hr>
+          <br>
+          <div class="card w-75">
+            <div class="card-header">
+              <h5>Un Authenticated List</h5>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Index Number</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in un_auth %}
+                            <tr>
+                                <td>{{row[0]}}</td>
+                                <td>{{row[1]}}</td>
+                                <td>{{row[2]}}</td>
+                                
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+              </table>
+            </div>
+            
+          </div>
+          <!-- <div><a href="/superAdminReports?action=print">Print</a></div> -->
+    </fieldset>
+    <div>
+      <!-- <a class="btn btn-info" href="adminReports?action=print" role="button">Print</a> -->
+
+    </div>
+    
+    <script>
+      $(document).ready(function(){
+          $('button').click(function(){
+              var dep = $('#dep').val(); // Corrected the selector to use # for ID
+              $.get('/adminReports', { dep: dep }, function(data) {
+                  console.log(data);
+              });
+          });
+      });
+  </script>
+</body>
+</html>
